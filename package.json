@@ -11,7 +11,7 @@
     "prepare": "npm run build"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/strutio-team"
+    "registry": "https://npm.pkg.github.com/@strutio-team"
   },
   "keywords": [],
   "author": "",
