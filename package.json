@@ -10,6 +10,9 @@
     "build": "tsc",
     "prepare": "npm run build"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/strutio-team"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
