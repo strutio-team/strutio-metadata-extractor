@@ -1,5 +1,10 @@
 name: Strutio Build Metadata Extractor
 
+# Add permissions at the workflow level
+permissions:
+  contents: read
+  packages: write
+
 on:
   push:
     branches:
@@ -11,24 +16,19 @@ jobs:
     permissions:
       contents: read
       packages: write
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
           registry-url: https://npm.pkg.github.com/
           scope: '@strutio-team'
-
       - name: Install dependencies
         run: npm ci
-
       - name: Build
         run: npm run build
-
       - name: Publish to GitHub Packages
         run: npm publish
         env:
