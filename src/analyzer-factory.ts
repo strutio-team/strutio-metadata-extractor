@@ -12,18 +12,18 @@ export class PackageAnalyzerFactory {
         // new AabAnalyzer()
     ];
 
-    static async createAnalyzer(filePath: string): Promise<PackageAnalyzer> {
-        console.log(`Finding analyzer for: ${filePath}`);
+    static async createAnalyzer(file: File): Promise<PackageAnalyzer> {
+        console.log(`Finding analyzer for: ${file.name}`);
 
         for (const analyzer of this.analyzers) {
-            if (await analyzer.canAnalyze(filePath)) {
+            if (await analyzer.canAnalyze(file)) {
                 console.log(`Found compatible analyzer: ${analyzer.constructor.name}`);
                 return analyzer;
             }
         }
 
         throw new UnsupportedPackageError(
-            `No suitable analyzer found for file: ${filePath}`
+            `No suitable analyzer found for file: ${file.name}`
         );
     }
 

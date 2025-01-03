@@ -7,14 +7,14 @@ async function test() {
         console.log('Testing APK:', apkPath);
         console.log('Starting analysis...\n');
 
-        const result = await analyzePackage(apkPath);
+        // const result = await analyzePackage(apkPath);
 
-        console.log('Analysis Result:');
-        console.log('----------------');
-        console.log('Package Name:', result.packageName);
-        console.log('Version Name:', result.versionName);
-        console.log('Version Code:', result.versionCode);
-        console.log('Min OS:', result.minOsVersion);
+        // console.log('Analysis Result:');
+        // console.log('----------------');
+        // console.log('Package Name:', result.packageName);
+        // console.log('Version Name:', result.versionName);
+        // console.log('Version Code:', result.versionCode);
+        // console.log('Min OS:', result.minOsVersion);
     } catch (error) {
         console.error('Error:', error);
     }

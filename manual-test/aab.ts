@@ -9,15 +9,15 @@ async function test() {
         console.log('Testing AAB:', aabPath);
         console.log('Starting analysis...\n');
 
-        const result = await analyzePackage(aabPath);
+        // const result = await analyzePackage(aabPath);
 
-        console.log('Analysis Result:');
-        console.log('----------------');
-        console.log('Package Name:', result.packageName);
-        console.log('Version:', result.versionName);
-        console.log('Version Code:', result.versionCode);
-        console.log('Min Android Version:', result.minOsVersion);
-        console.log('Platform:', result.platform);
+        // console.log('Analysis Result:');
+        // console.log('----------------');
+        // console.log('Package Name:', result.packageName);
+        // console.log('Version:', result.versionName);
+        // console.log('Version Code:', result.versionCode);
+        // console.log('Min Android Version:', result.minOsVersion);
+        // console.log('Platform:', result.platform);
     } catch (error) {
         console.error('Error:', error);
     }

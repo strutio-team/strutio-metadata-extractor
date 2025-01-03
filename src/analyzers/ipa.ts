@@ -15,14 +15,21 @@ export class IpaAnalyzer implements PackageAnalyzer {
         }
     }
 
-    async canAnalyze(filePath: string): Promise<boolean> {
-        if (!filePath) {
-            console.log('No file path provided');
+    async canAnalyze(file: File): Promise<boolean> {
+        if (!file) {
+            console.log('No file provided');
             return false;
         }
 
         try {
-            const parser = new this.IpaParser(filePath);
+            // Check if file extension is .ipa
+            if (!file.name.toLowerCase().endsWith('.ipa')) {
+                return false;
+            }
+
+            // Create blob from file for parser
+            const blob = new Blob([await file.arrayBuffer()], { type: file.type });
+            const parser = new this.IpaParser(blob);
             await parser.parse();
             return true;
         } catch (error) {
@@ -30,11 +37,13 @@ export class IpaAnalyzer implements PackageAnalyzer {
         }
     }
 
-    async analyze(filePath: string): Promise<PackageMetadata> {
-        console.log(`Analyzing IPA: ${filePath}`);
+    async analyze(file: File): Promise<PackageMetadata> {
+        console.log(`Analyzing IPA: ${file.name}`);
 
         try {
-            const parser = new this.IpaParser(filePath);
+            // Convert File to Blob for parser
+            const blob = new Blob([await file.arrayBuffer()], { type: file.type });
+            const parser = new this.IpaParser(blob);
             const result = await parser.parse();
 
             console.log('Successfully parsed IPA');
@@ -49,7 +58,8 @@ export class IpaAnalyzer implements PackageAnalyzer {
                 versionName: result.CFBundleShortVersionString || 'unknown',
                 minOsVersion: this.extractMinOsVersion(result),
                 platform: 'ios',
-                extractedAt: new Date()
+                extractedAt: new Date(),
+           
             };
         } catch (error) {
             if (error instanceof AnalysisError) {
