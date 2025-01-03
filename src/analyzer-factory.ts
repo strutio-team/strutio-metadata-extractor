@@ -3,13 +3,13 @@ import { PackageAnalyzer } from './types';
 import { ApkAnalyzer } from './analyzers/apk';
 import { IpaAnalyzer } from './analyzers/ipa';
 import { UnsupportedPackageError } from './errors';
-import { AabAnalyzer } from './analyzers/aab';
+// import { AabAnalyzer } from './analyzers/aab';
 
 export class PackageAnalyzerFactory {
     private static analyzers: PackageAnalyzer[] = [
         new ApkAnalyzer(),
         new IpaAnalyzer(),
-        new AabAnalyzer()
+        // new AabAnalyzer()
     ];
 
     static async createAnalyzer(filePath: string): Promise<PackageAnalyzer> {

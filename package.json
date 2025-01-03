@@ -21,7 +21,6 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
-    "app-info-parser": "github:strutio-team/app-info-parser-client-side",
-    "node-aab-parser": "^1.0.3"
+    "app-info-parser": "github:strutio-team/app-info-parser-client-side"
   }
 }
