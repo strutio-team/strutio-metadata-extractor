@@ -10,14 +10,12 @@ export class IpaAnalyzer implements PackageAnalyzer {
             // Use specific parser for better performance
             this.IpaParser = require('app-info-parser/src/ipa');
         } catch (error) {
-            console.log('Failed to load app-info-parser:', error);
             throw new Error('app-info-parser module is required for IPA analysis');
         }
     }
 
     async canAnalyze(file: File): Promise<boolean> {
         if (!file) {
-            console.log('No file provided');
             return false;
         }
 
@@ -38,16 +36,12 @@ export class IpaAnalyzer implements PackageAnalyzer {
     }
 
     async analyze(file: File): Promise<PackageMetadata> {
-        console.log(`Analyzing IPA: ${file.name}`);
-
         try {
             // Convert File to Blob for parser
             const blob = new Blob([await file.arrayBuffer()], { type: file.type });
             const parser = new this.IpaParser(blob);
             const result = await parser.parse();
 
-            console.log('Successfully parsed IPA');
-            console.log(result);
             if (!result.CFBundleIdentifier) {
                 throw new AnalysisError('Invalid IPA: missing bundle identifier');
             }
@@ -77,7 +71,6 @@ export class IpaAnalyzer implements PackageAnalyzer {
         try {
             return result.MinimumOSVersion?.toString() || 'unknown';
         } catch (error) {
-            console.log('Error extracting MinimumOSVersion:', error);
             return 'unknown';
         }
     }

@@ -9,14 +9,12 @@ export class ApkAnalyzer implements PackageAnalyzer {
             // Use specific parser for better performance
             this.ApkParser = require('app-info-parser/src/apk');
         } catch (error) {
-            console.log('Failed to load app-info-parser:', error);
             throw new Error('app-info-parser module is required for APK analysis');
         }
     }
 
     async canAnalyze(file: File): Promise<boolean> {
         if (!file) {
-            console.log('No file provided');
             return false;
         }
 
@@ -37,16 +35,11 @@ export class ApkAnalyzer implements PackageAnalyzer {
     }
 
     async analyze(file: File): Promise<PackageMetadata> {
-        console.log(`Analyzing APK: ${file.name}`);
-
         try {
             // Convert File to Blob for parser
             const blob = new Blob([await file.arrayBuffer()], { type: file.type });
             const parser = new this.ApkParser(blob);
             const result = await parser.parse();
-
-            console.log('Successfully parsed APK');
-            console.log(result);
 
             if (!result.package) {
                 throw new AnalysisError('Invalid APK: missing package name');
@@ -74,7 +67,6 @@ export class ApkAnalyzer implements PackageAnalyzer {
         try {
             return result.usesSdk?.minSdkVersion?.toString() || 'unknown';
         } catch (error) {
-            console.log('Error extracting minSdkVersion:', error);
             return 'unknown';
         }
     }

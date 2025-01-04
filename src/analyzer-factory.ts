@@ -13,11 +13,8 @@ export class PackageAnalyzerFactory {
     ];
 
     static async createAnalyzer(file: File): Promise<PackageAnalyzer> {
-        console.log(`Finding analyzer for: ${file.name}`);
-
         for (const analyzer of this.analyzers) {
             if (await analyzer.canAnalyze(file)) {
-                console.log(`Found compatible analyzer: ${analyzer.constructor.name}`);
                 return analyzer;
             }
         }
@@ -29,6 +26,5 @@ export class PackageAnalyzerFactory {
 
     static registerAnalyzer(analyzer: PackageAnalyzer) {
         this.analyzers.push(analyzer);
-        console.log(`Registered new analyzer: ${analyzer.constructor.name}`);
     }
 }
