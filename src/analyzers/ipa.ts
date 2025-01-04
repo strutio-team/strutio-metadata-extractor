@@ -59,7 +59,9 @@ export class IpaAnalyzer implements PackageAnalyzer {
                 minOsVersion: this.extractMinOsVersion(result),
                 platform: 'ios',
                 extractedAt: new Date(),
-           
+                additionalInfo: {
+                    provisioningProfile: result.mobileProvision.Name
+                }
             };
         } catch (error) {
             if (error instanceof AnalysisError) {
