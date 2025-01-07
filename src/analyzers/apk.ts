@@ -1,6 +1,5 @@
 import { PackageAnalyzer, PackageMetadata } from '../types';
 import { AnalysisError } from '../errors';
-import * as fs from 'fs';
 
 export class ApkAnalyzer implements PackageAnalyzer {
     private ApkParser: any;
@@ -13,36 +12,19 @@ export class ApkAnalyzer implements PackageAnalyzer {
         }
     }
 
-    private async convertToFile(filePath: string): Promise<File> {
-        try {
-            const fileBuffer = fs.readFileSync(filePath);
-            const fileName = filePath.split(/[\\/]/).pop() || '';
-            return new File([fileBuffer], fileName, {
-                type: 'application/octet-stream',
-                lastModified: new Date().getTime()
-            });
-        } catch (error) {
-            throw new AnalysisError(`Failed to read file: ${error instanceof Error ? error.message : String(error)}`);
-        }
-    }
-
     async canAnalyze(file: File | string): Promise<boolean> {
         if (!file) {
             return false;
         }
 
         try {
-            // Convert to File if string is provided
-            const fileObject = typeof file === 'string' ? await this.convertToFile(file) : file;
-
             // Check if file extension is .apk
-            if (!fileObject.name.toLowerCase().endsWith('.apk')) {
+            const fileName = typeof file === 'string' ? file.split(/[\\/]/).pop() || '' : file.name;
+            if (!fileName.toLowerCase().endsWith('.apk')) {
                 return false;
             }
 
-            // Create blob from file for parser
-            const blob = new Blob([await fileObject.arrayBuffer()], { type: fileObject.type });
-            const parser = new this.ApkParser(blob);
+            const parser = new this.ApkParser(file);
             await parser.parse();
             return true;
         } catch (error) {
@@ -52,12 +34,7 @@ export class ApkAnalyzer implements PackageAnalyzer {
 
     async analyze(file: File | string): Promise<PackageMetadata> {
         try {
-            // Convert to File if string is provided
-            const fileObject = typeof file === 'string' ? await this.convertToFile(file) : file;
-
-            // Convert File to Blob for parser
-            const blob = new Blob([await fileObject.arrayBuffer()], { type: fileObject.type });
-            const parser = new this.ApkParser(blob);
+            const parser = new this.ApkParser(file);
             const result = await parser.parse();
 
             if (!result.package) {
