@@ -12,7 +12,7 @@ export class PackageAnalyzerFactory {
         // new AabAnalyzer()
     ];
 
-    static async createAnalyzer(file: File): Promise<PackageAnalyzer> {
+    static async createAnalyzer(file: File | string): Promise<PackageAnalyzer> {
         for (const analyzer of this.analyzers) {
             if (await analyzer.canAnalyze(file)) {
                 return analyzer;
@@ -20,7 +20,7 @@ export class PackageAnalyzerFactory {
         }
 
         throw new UnsupportedPackageError(
-            `No suitable analyzer found for file: ${file.name}`
+            `No suitable analyzer found for file: ${typeof file === 'string' ? file : file.name}`
         );
     }
 

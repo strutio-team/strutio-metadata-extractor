@@ -19,6 +19,6 @@ export interface PackageMetadata {
 }
 
 export interface PackageAnalyzer {
-    canAnalyze(file: File): Promise<boolean>;
-    analyze(file: File): Promise<PackageMetadata>;
+    canAnalyze(file: File | string): Promise<boolean>;
+    analyze(file: File | string): Promise<PackageMetadata>;
 }

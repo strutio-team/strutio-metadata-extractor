@@ -19,5 +19,5 @@ declare module 'strutio-metadata-extractor' {
         };
     }
 
-    export function analyzePackage(file: File): Promise<PackageMetadata>;
+    export function analyzePackage(file: File | string): Promise<PackageMetadata>;
 }
